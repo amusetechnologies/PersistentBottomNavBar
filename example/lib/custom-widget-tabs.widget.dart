@@ -124,6 +124,7 @@ class _CustomWidgetExampleState extends State<CustomWidgetExample> {
       ),
       body: PersistentTabView.custom(
         context,
+        navBarHeight: kBottomNavigationBarHeight,
         controller: _controller,
         screens: _buildScreens(),
         confineInSafeArea: true,
