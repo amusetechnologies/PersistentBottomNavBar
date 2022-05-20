@@ -123,8 +123,14 @@ class _CustomWidgetExampleState extends State<CustomWidgetExample> {
         ),
       ),
       body: PersistentTabView.custom(
+        // to get rounded corners, need to clip the custom wdiget (it ignores the set decoration border radius)
+        // then apply the color you want the bottom of the nav bar to be to: decoration: NavBarDecoration(colorBehindNavBar)
         context,
         navBarHeight: kBottomNavigationBarHeight,
+        decoration: NavBarDecoration(
+            colorBehindNavBar: Colors.purple,
+            borderRadius: BorderRadius.circular(20.0)),
+        backgroundColor: Colors.transparent,
         controller: _controller,
         screens: _buildScreens(),
         confineInSafeArea: true,
@@ -137,14 +143,18 @@ class _CustomWidgetExampleState extends State<CustomWidgetExample> {
           curve: Curves.ease,
           duration: Duration(milliseconds: 200),
         ),
-        customWidget: CustomNavBarWidget(
-          items: _navBarsItems(),
-          onItemSelected: (index) {
-            setState(() {
-              _controller.index = index; // THIS IS CRITICAL!! Don't miss it!
-            });
-          },
-          selectedIndex: _controller.index,
+        customWidget: ClipRRect(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
+          child: CustomNavBarWidget(
+            items: _navBarsItems(),
+            onItemSelected: (index) {
+              setState(() {
+                _controller.index = index; // THIS IS CRITICAL!! Don't miss it!
+              });
+            },
+            selectedIndex: _controller.index,
+          ),
         ),
       ),
     );
